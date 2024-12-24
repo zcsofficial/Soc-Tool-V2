@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from pydantic import BaseModel
 from typing import Optional, List
@@ -27,6 +28,15 @@ login_attempts_collection = db["login_attempts"]
 
 # Initialize FastAPI app
 app = FastAPI()
+
+# CORS middleware setup
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this in production to restrict to specific domains
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Helper function to convert ObjectId to string
 def objectid_to_str(doc):
